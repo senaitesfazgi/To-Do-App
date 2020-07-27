@@ -1,4 +1,5 @@
 import React from 'react';
+import {v4 as uuidv4} from 'uuid';
 
 class App extends React.Component{
     constructor(props){
@@ -11,10 +12,28 @@ class App extends React.Component{
 
     }
 
-    addToDo(event){
+    addToDo=(event)=>{
         event.preventDefault();
-        console.log("Test Add to Do!")
+        //console.log("Test Add to Do!")
+        const newTask = {
+            uniqueId: uuidv4(),
+            value:this.state.newToDo
+        };
+        console.log(newTask);
+        //create a clone of our toDos array, so we can make changes before updating state
+        const currentToDoList = [...this.state.toDos];
+        currentToDoList.push(newTask);
 
+        this.setState({
+            toDos:currentToDoList, //update todos list
+            newToDo: ""//clear the new "to-do" view
+        })
+
+    }
+    updateItem(key, value){
+        //We never reassign the contents pf this.State.
+        //this.state is only used fo reading values 
+        this.setState({[key]:value});
     }
     render()
     {
@@ -23,11 +42,20 @@ class App extends React.Component{
             <h1>React To-Do App</h1>
             <form onSubmit={this.addToDo}>
                 <lable htmlFor="newToDo">
-                    Enter a new "To-Do:"
-                    <input type="text" name="newToDo" id="newToDo" required/>
+                    Enter a new "To-Do":
+                    <input type="text" 
+                           name="newToDo"
+                           id="newToDo" 
+                           required 
+                           value= {this.state.newToDo}
+                           onChange={event => this.updateItem('newToDo', event.target.value)}/> 
                 </lable>
-                <input type = "submit" value="Add New To-Do"/>
+                <input type = "submit" 
+                        value="Add New To-Do"/>
             </form>
+            <h1>Current To-Dos</h1>
+
+
         </>
         );
     }
