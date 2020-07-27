@@ -5,7 +5,7 @@ class ToDo extends React.Component{
     {
         return(
             <li>
-                Test
+                {this.props.task}
             </li>
         )
     }

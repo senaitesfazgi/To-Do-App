@@ -5,7 +5,7 @@ import ToDo from './ToDo';
 class App extends React.Component{
     constructor(props){
         super(props);
-
+        //"this" in this context is used for instance of a class
         this.state = {
             newToDo:"",  //Kepp track of our new to-do value 
             toDos: [] // Keep track all the to do
@@ -49,6 +49,7 @@ class App extends React.Component{
                            id="newToDo" 
                            required 
                            value= {this.state.newToDo}
+                           //"this" in this context means the element the event is triggered on
                            onChange={event => this.updateItem('newToDo', event.target.value)}/> 
                 </lable>
                 <input type = "submit" 
@@ -56,7 +57,9 @@ class App extends React.Component{
             </form>
             <h1>Current To-Dos</h1>
             <ul>
-                <ToDo/>
+                {this.state.toDos.map(toDo =>(//We can use .map() to loop through our array contents. Great for outputting something like those toDos
+                <ToDo key = {toDo.uniqueId} task = {toDo.value}/>))}
+                
             </ul>
         </>
         );
